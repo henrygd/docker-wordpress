@@ -5,7 +5,8 @@ Fork of [TrafeX/docker-wordpress](https://github.com/TrafeX/docker-wordpress). U
 
 * Remove detached wp-content
 * Remove healthcheck
-* Add redis / php8-session (todo: php-redis extension)
+* Add php8-session
+* Add redis / php redis extension
 
 <hr>
 

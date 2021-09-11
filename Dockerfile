@@ -1,6 +1,4 @@
 FROM alpine:3.14
-LABEL Maintainer="Tim de Pater <code@trafex.nl>" \
-      Description="Lightweight WordPress container with Nginx 1.20 & PHP-FPM 8.0 based on Alpine Linux."
 
 # Install packages
 RUN apk --no-cache add \
@@ -30,6 +28,7 @@ RUN apk --no-cache add \
   php8-iconv \
   php8-pecl-imagick \
   php8-session \
+  php8-pecl-redis \
   nginx \
   supervisor \
   curl \
@@ -73,8 +72,8 @@ RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh
     && chmod +x /usr/local/bin/wp
 
 # WP config
-COPY wp-config.php /usr/src/wordpress
-RUN chown nobody.nobody /usr/src/wordpress/wp-config.php && chmod 640 /usr/src/wordpress/wp-config.php
+# COPY wp-config.php /usr/src/wordpress
+# RUN chown nobody.nobody /usr/src/wordpress/wp-config.php && chmod 640 /usr/src/wordpress/wp-config.php
 
 # Append WP secrets
 COPY wp-secrets.php /usr/src/wordpress
