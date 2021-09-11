@@ -33,7 +33,8 @@ RUN apk --no-cache add \
   supervisor \
   curl \
   bash \
-  less
+  less \
+  redis
 
 # Create symlink so programs depending on `php` still function
 RUN ln -s /usr/bin/php8 /usr/bin/php
