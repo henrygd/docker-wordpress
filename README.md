@@ -1,6 +1,14 @@
 
 # WordPress Docker Container
 
+Fork of [TrafeX/docker-wordpress](https://github.com/TrafeX/docker-wordpress). Use that image instead. Changes:
+
+* Remove detached wp-content
+* Remove healthcheck
+* Add redis / php8-session (todo: php-redis extension)
+
+<hr>
+
 Lightweight WordPress container with Nginx 1.20 & PHP-FPM 8.0 based on Alpine Linux.
 
 _WordPress version currently installed:_ **5.7.2**
