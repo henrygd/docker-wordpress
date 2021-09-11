@@ -18,7 +18,6 @@ RUN apk --no-cache add \
   php8-exif \
   php8-fileinfo \
   php8-sodium \
-  php8-openssl \
   php8-gd \
   php8-simplexml \
   php8-ctype \
@@ -76,8 +75,8 @@ RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh
 # RUN chown nobody.nobody /usr/src/wordpress/wp-config.php && chmod 640 /usr/src/wordpress/wp-config.php
 
 # Append WP secrets
-COPY wp-secrets.php /usr/src/wordpress
-RUN chown nobody.nobody /usr/src/wordpress/wp-secrets.php && chmod 640 /usr/src/wordpress/wp-secrets.php
+# COPY wp-secrets.php /usr/src/wordpress
+# RUN chown nobody.nobody /usr/src/wordpress/wp-secrets.php && chmod 640 /usr/src/wordpress/wp-secrets.php
 
 # Entrypoint to copy wp-content
 # COPY entrypoint.sh /entrypoint.sh

@@ -1,43 +1,16 @@
-version: '3.5'
+version: '3'
 
 services:
-  db:
-    image: mariadb:10.3
-    volumes:
-      - "db-data:/var/lib/mysql"
-    environment:
-      MYSQL_ROOT_PASSWORD: wordpress
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress
+   wordpress:
+     container_name: CHANGE_ME
+     image: ghcr.io/henrygd/docker-wordpress:master
+     restart: unless-stopped
+     working_dir: /usr/src/wordpress
+     volumes:
+      - PATH_TO_WORDPRESS_FILES:/usr/src/wordpress
 
-  wordpress:
-    depends_on:
-      - db
-    build: ./
-    volumes:
-      - "site-data:/var/www/wp-content"
-    ports:
-      - "80:80"
-    environment:
-      DB_HOST: db
-      DB_PASSWORD: wordpress
-      DB_NAME: wordpress
-      DB_USER: wordpress
-      WORDPRESS_SITE_URL: http://localhost
-      FS_METHOD: direct
-      # For debugging only:
-      #WP_DEBUG: "true"
-      #WP_DEBUG_DISPLAY: "true"
-
-volumes:
-  db-data:
-  site-data:
 
 networks:
   default:
-    driver: bridge
-    ipam:
-        driver: default
-        config:
-        - subnet: 192.168.91.0/24
+    external:
+      name: hanknet
