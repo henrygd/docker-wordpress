@@ -49,9 +49,9 @@ COPY config/php.ini /etc/php8/conf.d/zzz_custom.ini
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # wp-content volume
-VOLUME /var/www/wp-content
-WORKDIR /var/www/wp-content
-RUN chown -R nobody.nobody /var/www
+#VOLUME /var/www/wp-content
+#WORKDIR /var/www/wp-content
+#RUN chown -R nobody.nobody /var/www
 
 # WordPress
 ENV WORDPRESS_VERSION 5.7.2
@@ -79,8 +79,8 @@ COPY wp-secrets.php /usr/src/wordpress
 RUN chown nobody.nobody /usr/src/wordpress/wp-secrets.php && chmod 640 /usr/src/wordpress/wp-secrets.php
 
 # Entrypoint to copy wp-content
-COPY entrypoint.sh /entrypoint.sh
-ENTRYPOINT [ "/entrypoint.sh" ]
+# COPY entrypoint.sh /entrypoint.sh
+# ENTRYPOINT [ "/entrypoint.sh" ]
 
 EXPOSE 80
 
