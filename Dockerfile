@@ -29,6 +29,7 @@ RUN apk --no-cache add \
   php8-opcache \
   php8-iconv \
   php8-pecl-imagick \
+  php8-session \
   nginx \
   supervisor \
   curl \
