@@ -48,9 +48,12 @@ COPY config/php.ini /etc/php8/conf.d/zzz_custom.ini
 # Configure supervisord
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
+# Redis options
+RUN echo -e "maxmemory 128mb\nmaxmemory-policy allkeys-lru\nsave 600 100" >> /etc/redis.conf
+
 # wp-content volume
 #VOLUME /var/www/wp-content
-#WORKDIR /var/www/wp-content
+# WORKDIR /var/www/wp-content
 #RUN chown -R nobody.nobody /var/www
 
 # WordPress
@@ -61,6 +64,8 @@ COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Upstream tarballs include ./wordpress/ so this gives us /usr/src/wordpress
 RUN mkdir -p /usr/src/wordpress && chown -R nobody.nobody /usr/src/wordpress
+
+WORKDIR /usr/src
 
 # Add WP CLI
 RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \

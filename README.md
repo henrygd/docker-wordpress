@@ -1,7 +1,7 @@
 
 # WordPress Docker Container
 
-Fork of [TrafeX/docker-wordpress](https://github.com/TrafeX/docker-wordpress). Use that image instead. Changes:
+Fork of [TrafeX/docker-wordpress](https://github.com/TrafeX/docker-wordpress). You may want to use that image instead. Changes:
 
 * Remove detached wp-content
 * Remove healthcheck
@@ -11,8 +11,6 @@ Fork of [TrafeX/docker-wordpress](https://github.com/TrafeX/docker-wordpress). U
 <hr>
 
 Lightweight WordPress container with Nginx 1.20 & PHP-FPM 8.0 based on Alpine Linux.
-
-_WordPress version currently installed:_ **5.7.2**
 
 * Used in production for my own sites, making it stable, tested and up-to-date
 * Optimized for 100 concurrent users
@@ -24,26 +22,8 @@ _WordPress version currently installed:_ **5.7.2**
 * Can safely be updated without losing data
 * Fully configurable because wp-config.php uses the environment variables you can pass as an argument to the container
 
-[![Docker Pulls](https://img.shields.io/docker/pulls/trafex/wordpress.svg)](https://hub.docker.com/r/trafex/wordpress/)
-![nginx 1.20](https://img.shields.io/badge/nginx-1.20-brightgreen.svg)
-![php 8.0](https://img.shields.io/badge/php-8.0-brightgreen.svg)
-![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)
-
-
 ## Usage
-See [docker-compose.yml](https://github.com/TrafeX/docker-wordpress/blob/master/docker-compose.yml) how to use it in your own environment.
-
-    docker-compose up
-
-Or
-
-    docker run -d -p 80:80 -v /local/folder:/var/www/wp-content \
-    -e "DB_HOST=db" \
-    -e "DB_NAME=wordpress" \
-    -e "DB_USER=wp" \
-    -e "DB_PASSWORD=secret" \
-    -e "FS_METHOD=direct" \
-    trafex/wordpress
+See [docker-compose.yml](https://github.com/TrafeX/docker-wordpress/blob/master/docker-compose.yml) for an example. You should bind mount existing wordpress files on the host (migrated site or fresh install) and use an external database server. Expose port 80 or use with something like [nginx-proxy-manager](https://github.com/jc21/nginx-proxy-manager) or [traefik](https://github.com/traefik/traefik).
 
 ### WP-CLI
 

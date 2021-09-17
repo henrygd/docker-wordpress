@@ -5,10 +5,8 @@ services:
      container_name: CHANGE_ME
      image: ghcr.io/henrygd/docker-wordpress:latest
      restart: unless-stopped
-     working_dir: /usr/src/wordpress
      volumes:
       - PATH_TO_WORDPRESS_FILES:/usr/src/wordpress
-
 
 networks:
   default:
