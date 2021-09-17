@@ -54,17 +54,13 @@ COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 #RUN chown -R nobody.nobody /var/www
 
 # WordPress
-ENV WORDPRESS_VERSION 5.7.2
-ENV WORDPRESS_SHA1 c97c037d942e974eb8524213a505268033aff6c8
+# ENV WORDPRESS_VERSION 5.7.2
+# ENV WORDPRESS_SHA1 c97c037d942e974eb8524213a505268033aff6c8
 
-RUN mkdir -p /usr/src
+# RUN mkdir -p /usr/src
 
 # Upstream tarballs include ./wordpress/ so this gives us /usr/src/wordpress
-RUN curl -o wordpress.tar.gz -SL https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz \
-	&& echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c - \
-	&& tar -xzf wordpress.tar.gz -C /usr/src/ \
-	&& rm wordpress.tar.gz \    
-	&& chown -R nobody.nobody /usr/src/wordpress
+RUN mkdir -p /usr/src/wordpress && chown -R nobody.nobody /usr/src/wordpress
 
 # Add WP CLI
 RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
