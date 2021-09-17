@@ -3,7 +3,7 @@ version: '3'
 services:
    wordpress:
      container_name: CHANGE_ME
-     image: ghcr.io/henrygd/docker-wordpress:master
+     image: ghcr.io/henrygd/docker-wordpress:latest
      restart: unless-stopped
      working_dir: /usr/src/wordpress
      volumes:
