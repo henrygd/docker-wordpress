@@ -27,6 +27,7 @@ RUN apk --no-cache add \
   php8-iconv \
   php8-pecl-imagick \
   php8-session \
+  php8-tokenizer \
   php8-pecl-redis \
   nginx \
   supervisor \
