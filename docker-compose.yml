@@ -1,14 +1,9 @@
-version: '3'
+version: "3"
 
 services:
-   wordpress:
-     container_name: CHANGE_ME
-     image: ghcr.io/henrygd/docker-wordpress:latest
-     restart: unless-stopped
-     volumes:
+  wordpress:
+    container_name: CHANGE_ME
+    image: ghcr.io/henrygd/docker-wordpress:latest
+    restart: unless-stopped
+    volumes:
       - PATH_TO_WORDPRESS_FILES:/usr/src/wordpress
-
-networks:
-  default:
-    external:
-      name: hanknet
