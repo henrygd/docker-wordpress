@@ -8,4 +8,4 @@ services:
     volumes:
       - PATH_TO_WORDPRESS_FILES:/usr/src/wordpress
     environment:
-      INSTALL_PLUGINS: true
+      INSTALL_PLUGINS: "true"
