@@ -7,3 +7,5 @@ services:
     restart: unless-stopped
     volumes:
       - PATH_TO_WORDPRESS_FILES:/usr/src/wordpress
+    environment:
+      INSTALL_PLUGINS: true

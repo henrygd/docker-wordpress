@@ -18,7 +18,6 @@ RUN apk --no-cache add \
   php7-exif \
   php7-fileinfo \
   php7-sodium \
-  php7-gd \
   php7-simplexml \
   php7-ctype \
   php7-mbstring \
@@ -26,6 +25,7 @@ RUN apk --no-cache add \
   php7-opcache \
   php7-iconv \
   php7-pecl-imagick \
+  php7-pecl-vips \
   php7-session \
   php7-tokenizer \
   php7-pecl-redis \
@@ -45,19 +45,8 @@ COPY config/php.ini /etc/php7/conf.d/zzz_custom.ini
 # Configure supervisord
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# wp-content volume
-#VOLUME /var/www/wp-content
-# WORKDIR /var/www/wp-content
-#RUN chown -R nobody.nobody /var/www
-
-# WordPress
-# ENV WORDPRESS_VERSION 5.7.2
-# ENV WORDPRESS_SHA1 c97c037d942e974eb8524213a505268033aff6c8
-
-# RUN mkdir -p /usr/src
-
-# Upstream tarballs include ./wordpress/ so this gives us /usr/src/wordpress
-RUN mkdir -p /usr/src/wordpress && chown -R nobody.nobody /usr/src/wordpress
+# make wordpress dir
+RUN mkdir -p /usr/src/wordpress && chown -R nobody: /usr/src/wordpress
 
 WORKDIR /usr/src
 
@@ -65,17 +54,9 @@ WORKDIR /usr/src
 RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
   && chmod +x /usr/local/bin/wp
 
-# WP config
-# COPY wp-config.php /usr/src/wordpress
-# RUN chown nobody.nobody /usr/src/wordpress/wp-config.php && chmod 640 /usr/src/wordpress/wp-config.php
-
-# Append WP secrets
-# COPY wp-secrets.php /usr/src/wordpress
-# RUN chown nobody.nobody /usr/src/wordpress/wp-secrets.php && chmod 640 /usr/src/wordpress/wp-secrets.php
-
-# Entrypoint to copy wp-content
-# COPY entrypoint.sh /entrypoint.sh
-# ENTRYPOINT [ "/entrypoint.sh" ]
+# Entrypoint to install plugins
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT [ "/entrypoint.sh" ]
 
 EXPOSE 80
 
