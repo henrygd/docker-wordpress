@@ -1,11 +1,21 @@
 version: "3"
 
 services:
-  wordpress:
-    container_name: CHANGE_ME
+  redis-wp:
+    container_name: redis-wp
+    image: redis:6-alpine
+    restart: unless-stopped
+
+  example-site:
+    container_name: example-site
     image: ghcr.io/henrygd/docker-wordpress:latest
     restart: unless-stopped
     volumes:
       - PATH_TO_WORDPRESS_FILES:/usr/src/wordpress
+    ports:
+      - '127.0.0.1:8000:80'
     environment:
       INSTALL_PLUGINS: "true"
+      WP_REDIS_HOST: "redis-wp"
+      # other sites can use databases up to 15
+      WP_REDIS_DATABASE: 0
