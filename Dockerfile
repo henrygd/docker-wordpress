@@ -1,4 +1,4 @@
-FROM alpine:3.14
+FROM alpine:3.15
 
 # Install packages
 RUN apk --no-cache add \
@@ -18,7 +18,6 @@ RUN apk --no-cache add \
   php8-exif \
   php8-fileinfo \
   php8-sodium \
-  php8-gd \
   php8-simplexml \
   php8-ctype \
   php8-mbstring \
@@ -26,6 +25,7 @@ RUN apk --no-cache add \
   php8-opcache \
   php8-iconv \
   php8-pecl-imagick \
+  php8-pecl-vips \
   php8-session \
   php8-tokenizer \
   php8-pecl-redis \
@@ -33,8 +33,7 @@ RUN apk --no-cache add \
   supervisor \
   curl \
   bash \
-  less \
-  redis
+  less
 
 # Create symlink so programs depending on `php` still function
 RUN ln -s /usr/bin/php8 /usr/bin/php
@@ -49,40 +48,18 @@ COPY config/php.ini /etc/php8/conf.d/zzz_custom.ini
 # Configure supervisord
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Redis options
-RUN echo -e "maxmemory 128mb\nmaxmemory-policy allkeys-lru\nsave 600 100" >> /etc/redis.conf
-
-# wp-content volume
-#VOLUME /var/www/wp-content
-# WORKDIR /var/www/wp-content
-#RUN chown -R nobody.nobody /var/www
-
-# WordPress
-# ENV WORDPRESS_VERSION 5.7.2
-# ENV WORDPRESS_SHA1 c97c037d942e974eb8524213a505268033aff6c8
-
-# RUN mkdir -p /usr/src
-
 # Upstream tarballs include ./wordpress/ so this gives us /usr/src/wordpress
-RUN mkdir -p /usr/src/wordpress && chown -R nobody.nobody /usr/src/wordpress
+RUN mkdir -p /usr/src/wordpress && chown -R nobody: /usr/src/wordpress
 
 WORKDIR /usr/src
 
 # Add WP CLI
 RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-    && chmod +x /usr/local/bin/wp
+  && chmod +x /usr/local/bin/wp
 
-# WP config
-# COPY wp-config.php /usr/src/wordpress
-# RUN chown nobody.nobody /usr/src/wordpress/wp-config.php && chmod 640 /usr/src/wordpress/wp-config.php
-
-# Append WP secrets
-# COPY wp-secrets.php /usr/src/wordpress
-# RUN chown nobody.nobody /usr/src/wordpress/wp-secrets.php && chmod 640 /usr/src/wordpress/wp-secrets.php
-
-# Entrypoint to copy wp-content
-# COPY entrypoint.sh /entrypoint.sh
-# ENTRYPOINT [ "/entrypoint.sh" ]
+# Entrypoint to install plugins
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT [ "/entrypoint.sh" ]
 
 EXPOSE 80
 
