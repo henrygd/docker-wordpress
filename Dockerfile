@@ -1,4 +1,4 @@
-FROM alpine:3.15
+FROM alpine:3.16
 
 # Install packages
 RUN apk --no-cache add \
@@ -36,7 +36,8 @@ RUN apk --no-cache add \
   less
 
 # Create symlink so programs depending on `php` still function
-RUN ln -s /usr/bin/php8 /usr/bin/php
+# not necessary since alpine 3.16 removed php 7
+# RUN ln -s /usr/bin/php8 /usr/bin/php
 
 # Configure nginx
 COPY config/nginx.conf /etc/nginx/nginx.conf
