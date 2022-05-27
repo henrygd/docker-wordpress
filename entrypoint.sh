@@ -65,8 +65,21 @@ for PLUGIN in $ADDITIONAL_PLUGINS; do
 		cd /usr/src/wordpress && wp plugin install --activate $PLUGIN
 	fi
 done
+
+# handle cron
+if [ -z "$CRON" ]; then
+  echo "No cron commands specified..."
 else
-	echo "Not installing plugins..."
+	# add commands
+	echo "$CRON" > /tmp/newcron
+	crontab /tmp/newcron
+  rm /tmp/newcron
+
+	echo "Starting cron daemon..."
+	/usr/sbin/crond
 fi
+
+# make sure plugins have correct permissions
+chown -R nobody: /usr/src/wordpress/wp-content/plugins
 
 exec "$@"
