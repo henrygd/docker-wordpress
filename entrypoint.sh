@@ -38,7 +38,7 @@ else
   cd /usr/src/wordpress && wp config set WP_REDIS_DATABASE "$WP_REDIS_DATABASE" --raw
 fi
 
-# install plugins
+# install recommended plugins
 if [ "$INSTALL_PLUGINS" = "true" ] ; then
 	if [ ! "$(ls -A "/usr/src/wordpress/wp-content/plugins/vips-image-editor" 2>/dev/null)" ]; then
 		echo 'Adding plugin: vips-image-editor'
@@ -54,8 +54,17 @@ if [ "$INSTALL_PLUGINS" = "true" ] ; then
 		echo 'Adding plugin: disable-media-pages'
 		cd /usr/src/wordpress && wp plugin install --activate disable-media-pages
 	fi
+else
+	echo "Not installing recommended plugins..."
+fi
 
-	chown -R nobody: /usr/src/wordpress/wp-content/plugins
+# install additional plugins
+for PLUGIN in $ADDITIONAL_PLUGINS; do
+	echo "Adding plugin: $PLUGIN"
+	if [ ! "$(ls -A "/usr/src/wordpress/wp-content/plugins/$PLUGIN" 2>/dev/null)" ]; then
+		cd /usr/src/wordpress && wp plugin install --activate $PLUGIN
+	fi
+done
 else
 	echo "Not installing plugins..."
 fi
