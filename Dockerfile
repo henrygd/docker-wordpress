@@ -2,33 +2,33 @@ FROM alpine:3.16
 
 # Install packages
 RUN apk --no-cache add \
-  php8 \
-  php8-fpm \
-  php8-mysqli \
-  php8-json \
-  php8-openssl \
-  php8-curl \
-  php8-zlib \
-  php8-xml \
-  php8-phar \
-  php8-intl \
-  php8-dom \
-  php8-xmlreader \
-  php8-xmlwriter \
-  php8-exif \
-  php8-fileinfo \
-  php8-sodium \
-  php8-simplexml \
-  php8-ctype \
-  php8-mbstring \
-  php8-zip \
-  php8-opcache \
-  php8-iconv \
-  php8-pecl-imagick \
-  php8-pecl-vips \
-  php8-session \
-  php8-tokenizer \
-  php8-pecl-redis \
+  php81 \
+  php81-fpm \
+  php81-mysqli \
+  php81-json \
+  php81-openssl \
+  php81-curl \
+  php81-zlib \
+  php81-xml \
+  php81-phar \
+  php81-intl \
+  php81-dom \
+  php81-xmlreader \
+  php81-xmlwriter \
+  php81-exif \
+  php81-fileinfo \
+  php81-sodium \
+  php81-simplexml \
+  php81-ctype \
+  php81-mbstring \
+  php81-zip \
+  php81-opcache \
+  php81-iconv \
+  php81-pecl-imagick \
+  php81-pecl-vips \
+  php81-session \
+  php81-tokenizer \
+  php81-pecl-redis \
   nginx \
   supervisor \
   curl \
@@ -36,15 +36,14 @@ RUN apk --no-cache add \
   less
 
 # Create symlink so programs depending on `php` still function
-# not necessary since alpine 3.16 removed php 7
-# RUN ln -s /usr/bin/php8 /usr/bin/php
+RUN ln -s /usr/bin/php81 /usr/bin/php
 
 # Configure nginx
 COPY config/nginx.conf /etc/nginx/nginx.conf
 
 # Configure PHP-FPM
-COPY config/fpm-pool.conf /etc/php8/php-fpm.d/zzz_custom.conf
-COPY config/php.ini /etc/php8/conf.d/zzz_custom.ini
+COPY config/fpm-pool.conf /etc/php81/php-fpm.d/zzz_custom.conf
+COPY config/php.ini /etc/php81/conf.d/zzz_custom.ini
 
 # Configure supervisord
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
