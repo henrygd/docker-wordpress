@@ -29,6 +29,7 @@ RUN apk --no-cache add \
   php81-session \
   php81-tokenizer \
   php81-pecl-redis \
+  mysql-client \
   nginx \
   supervisor \
   curl \
