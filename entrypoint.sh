@@ -6,8 +6,8 @@ set -e
 # install wordpress if necessary
 CONFIG=/usr/src/wordpress/wp-config.php
 SAMPLE=/usr/src/wordpress/wp-config-sample.php
-if [ -f "$CONFIG" ]; then
-	echo "Wordpress files found. Skipping install..."
+if [ "$(ls -A /usr/src/wordpress)" ]; then
+	echo "Wordpress folder is not empty. Skipping install..."
 else
 	echo "Wordpress files do not exist. Installing..."
 	if [[ ! -f "$SAMPLE" ]]; then
@@ -21,6 +21,11 @@ else
 	exec "$@"
 fi
 
+# exit if no wp-config.php
+if [[ ! -f "$CONFIG" ]]; then
+	echo "*** Config file not found. Please restart after installing Wordpress. ***"
+	exec "$@"
+fi
 # disable cron - handled by healthcheck
 cd /usr/src/wordpress && wp config set DISABLE_WP_CRON true --raw
 
